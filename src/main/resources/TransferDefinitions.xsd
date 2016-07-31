@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.xtonic.com/TransferDefinitions" elementFormDefault="unqualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.xtonic.com/TransferDefinitions" attributeFormDefault="unqualified">
+    <xsd:element name="transferDefinition" type="transferDefinitonType">
+    </xsd:element>
+    <xsd:complexType name="dataSourceType">
+    	<xsd:sequence>
+    		<xsd:element name="url" type="xsd:string" maxOccurs="1"
+    			minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="username" type="xsd:string" maxOccurs="1"
+    			minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="password" type="xsd:string" maxOccurs="1"
+    			minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="driverClass" type="xsd:string"
+    			maxOccurs="1" minOccurs="1">
+    		</xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="id" type="xsd:string" use="required"></xsd:attribute>
+    	<xsd:attribute name="dbType" type="xsd:string" use="required"></xsd:attribute>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="transferDefinitonType">
+    	<xsd:sequence>
+    		<xsd:element name="dataSources" type="dataSources"
+    			maxOccurs="1" minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="tables" type="tables" maxOccurs="1"
+    			minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="properties" type="properties"
+    			maxOccurs="1" minOccurs="0">
+    		</xsd:element>
+    		<xsd:element name="typehandlers" type="typehandlers"
+    			maxOccurs="1" minOccurs="0">
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="dataSources">
+    	<xsd:sequence maxOccurs="unbounded" minOccurs="1">
+    		<xsd:element name="dataSource" type="dataSourceType"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="tables">
+    	<xsd:sequence maxOccurs="unbounded" minOccurs="1">
+    		<xsd:element name="table" type="tableType"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="tableType">
+    	<xsd:sequence>
+    		<xsd:element name="srcs" type="srcs" maxOccurs="1"
+    			minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="changes" type="changes" maxOccurs="1"
+    			minOccurs="0">
+    		</xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="beanClass" type="xsd:string"
+    		use="required">
+    	</xsd:attribute>
+    	<xsd:attribute name="targetDataSourceRef" type="xsd:string"
+    		use="required">
+    	</xsd:attribute>
+    	<xsd:attribute name="table" type="xsd:string" use="required"></xsd:attribute>
+    	<xsd:attribute name="id" type="xsd:string" use="required"></xsd:attribute>
+    	<xsd:attribute name="taskImplClass" type="xsd:string"></xsd:attribute>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="srcs">
+    	<xsd:sequence>
+            <xsd:element name="src" type="srcType" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="srcType">
+    	<xsd:attribute name="srcDataSourceRef" type="xsd:string"
+    		use="required">
+    	</xsd:attribute>
+    	<xsd:attribute name="querySql" type="xsd:string"
+    		use="required">
+    	</xsd:attribute>
+    	<xsd:attribute name="keyColumn" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="isMainSrc" type="xsd:string" use="optional"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="changeType">
+    	<xsd:attribute name="columnName" type="xsd:string"
+    		use="required">
+    	</xsd:attribute>
+    	<xsd:attribute name="targetType" type="xsd:string"
+    		use="required">
+    	</xsd:attribute>
+    	<xsd:attribute name="srcType" type="xsd:string"
+    		use="required">
+    	</xsd:attribute>
+    	<xsd:attribute name="handlerRef" type="xsd:string" use="required"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="changes">
+    	<xsd:sequence>
+    		<xsd:element name="change" type="changeType" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="properties">
+    	<xsd:sequence>
+    		<xsd:element name="property" type="propertyType" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="propertyType">
+    	<xsd:attribute name="name" type="xsd:string" use="required"></xsd:attribute>
+    	<xsd:attribute name="value" type="xsd:string" use="required"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="typehandlers">
+    	<xsd:sequence>
+    		<xsd:element name="typehandler" type="typehandler" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="typehandler">
+    	<xsd:sequence></xsd:sequence>
+    	<xsd:attribute name="handlerid" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="handlerClass" type="xsd:string"></xsd:attribute>
+    </xsd:complexType>
+</xsd:schema>

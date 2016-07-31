@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:transferDefinition xmlns:p="http://www.xtonic.com/TransferDefinitions"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.xtonic.com/TransferDefinitions TransferDefinitions.xsd ">
+	<dataSources>
+		<dataSource id="targetDB" dbType="mysql">
+			<url>jdbc:mysql://192.168.31.108:3306/test</url>
+			<username>root</username>
+			<password>jzh9866</password>
+			<driverClass>com.mysql.jdbc.Driver</driverClass>
+		</dataSource>
+		<dataSource id="srcDB" dbType="mysql">
+			<url>jdbc:mysql://192.168.31.108:3306/testA</url>
+			<username>root</username>
+			<password>jzh9866</password>
+			<driverClass>com.mysql.jdbc.Driver</driverClass>
+		</dataSource>
+	</dataSources>
+	<tables>
+		<!-- <table beanClass="com.xtonic.entity.User" table="user"  
+			targetDataSourceRef="targetDB" id="hello">
+			<srcs>
+			"SELECT ID,USERNAME,AGE,INTERSTED,MEMO FROM SRCUSER"
+			SELECT id, name as username, nianl as age,aihao as intersted,beizhu as memo FROM testA.src2Table
+				<src querySql="select a.id,a.name as username,a.age,b.intersted,b.memo from testA.src3User a left join testA.src4User b on a.id = b.id"
+					srcDataSourceRef="srcDB" keyColumn="id" />
+			</srcs>
+			<changes>
+				<change columnName="age" targetType="java.lang.Integer" srcType="java.lang.String"   handlerRef="StringToInteger"/>
+			</changes>
+		</table> -->
+	  	<table beanClass="com.xtonic.entity.User" table="user"  
+			targetDataSourceRef="targetDB" id="userTable"  taskImplClass="com.xtonic.task.impl.MoreSrcsTransferTask">
+			<srcs>
+				<src querySql="select id,name as username,age from src3User "
+					srcDataSourceRef="srcDB" keyColumn="id"  isMainSrc="true"/>
+					<src querySql="select id,inttrested as intersted from src5user"
+					srcDataSourceRef="targetDB" keyColumn="id" />
+			</srcs>
+			<changes>
+				<change columnName="age" targetType="java.lang.Integer" srcType="java.lang.String"   handlerRef="StringToInteger"/>
+			</changes>
+		</table> 
+		<!--  <table beanClass="com.xtonic.entity.User" table="user"  
+			targetDataSourceRef="targetDB" id="hello"  taskImplClass="com.xtonic.task.impl.InsertTask">
+			<srcs>
+				<src querySql="SELECT ID,USERNAME,AGE,INTERSTED,MEMO FROM SRCUSER"
+					srcDataSourceRef="srcDB" keyColumn="id"  />
+			</srcs>
+		</table>  -->
+	<!-- 	 <table beanClass="com.xtonic.entity.Test_Table_1" table="TEST_TABLE_1"  
+			targetDataSourceRef="targetDB" id="hello" >
+			<srcs>
+				<src querySql="SELECT id,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16 FROM TEST_TABLE_1"
+					srcDataSourceRef="srcDB" keyColumn="id"  />
+			</srcs>
+		</table>  -->
+		
+		<!-- <table beanClass="com.xtonic.entity.Test_Table_2" table="TEST_TABLE_2"  
+			targetDataSourceRef="targetDB" id="hello1" >
+			<srcs>
+				<src querySql="SELECT id,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15  FROM TEST_TABLE_2"
+					srcDataSourceRef="srcDB" keyColumn="id"  />
+			</srcs>
+		</table> -->
+		<!--
+		<table beanClass="com.xtonic.entity.Test_Table_3" table="TEST_TABLE_3"  
+			targetDataSourceRef="targetDB" id="hello2" >
+			<srcs>
+				<src querySql="SELECT id,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16 FROM TEST_TABLE_3"
+					srcDataSourceRef="srcDB" keyColumn="id"  />
+			</srcs>
+		</table>
+		<table beanClass="com.xtonic.entity.Test_Table_4" table="TEST_TABLE_4"  
+			targetDataSourceRef="targetDB" id="hello3" >
+			<srcs>
+				<src querySql="SELECT id,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16 FROM TEST_TABLE_4"
+					srcDataSourceRef="srcDB" keyColumn="id"  />
+			</srcs>
+		</table>
+		<table beanClass="com.xtonic.entity.Test_Table_5" table="TEST_TABLE_5"  
+			targetDataSourceRef="targetDB" id="hello4" >
+			<srcs>
+				<src querySql="SELECT id,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16 FROM TEST_TABLE_5"
+					srcDataSourceRef="srcDB" keyColumn="id"  />
+			</srcs>
+		</table>
+		<table beanClass="com.xtonic.entity.Test_Table_6" table="TEST_TABLE_6"  
+			targetDataSourceRef="targetDB" id="hello5" >
+			<srcs>
+				<src querySql="SELECT id,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16 FROM TEST_TABLE_6"
+					srcDataSourceRef="srcDB" keyColumn="id"  />
+			</srcs>
+		</table> -->
+	</tables>
+	<properties>
+		<property name="poolSize" value="2"></property>
+		<property name="pageSize" value="10000"></property>
+		<property name="commitSize" value="5000"></property>
+		<property name="fialRecordFilePath"  value="/home/neil/MyStudio/Workspace/DateTransfer/src/main/resources/logs/" ></property> 
+	</properties>
+	<typehandlers>
+		<typehandler handlerid="StringToInteger" handlerClass="com.xtonic.type.impl.StringToIntegerHandler" />
+	</typehandlers>
+</p:transferDefinition>
